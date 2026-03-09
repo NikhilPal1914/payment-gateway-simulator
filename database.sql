@@ -1,0 +1,20 @@
+CREATE DATABASE payment_gateway;
+
+USE payment_gateway;
+
+CREATE TABLE users(
+id INT PRIMARY KEY AUTO_INCREMENT,
+name VARCHAR(100),
+email VARCHAR(100) UNIQUE,
+password VARCHAR(100),
+balance DOUBLE
+);
+
+CREATE TABLE transactions(
+id INT PRIMARY KEY AUTO_INCREMENT,
+sender_id INT,
+receiver_id INT,
+amount DOUBLE,
+status VARCHAR(50),
+date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

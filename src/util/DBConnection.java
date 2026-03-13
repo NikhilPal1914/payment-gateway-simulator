@@ -7,7 +7,7 @@ public class DBConnection {
 
     static final String URL = "jdbc:mysql://127.0.0.1:3306/payment_gateway";
     static final String USER = "root";
-    static final String PASSWORD = "";
+    static final String PASSWORD = "db_password";
 
     public static Connection getConnection() {
 

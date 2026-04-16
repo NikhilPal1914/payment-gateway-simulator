@@ -2,111 +2,134 @@ import Service.PaymentService;
 import dao.TransactionDAO;
 import dao.UserDAO;
 
-void main() {
+import java.util.Scanner;
 
-    Scanner sc = new Scanner(System.in);
+public class Main {
 
-    UserDAO userDAO = new UserDAO();
-    PaymentService paymentService = new PaymentService();
-    TransactionDAO transactionDAO = new TransactionDAO();
+    public static void main(String[] args) {
 
-    int loggedUser = -1;
+        Scanner sc = new Scanner(System.in);
 
-    while (true) {
+        UserDAO userDAO = new UserDAO();
+        PaymentService paymentService = new PaymentService();
+        TransactionDAO transactionDAO = new TransactionDAO();
 
-        IO.println("\n1 Register");
-        IO.println("2 Login");
-        IO.println("3 Add Money");
-        IO.println("4 Send Money");
-        IO.println("5 View Transactions");
-        IO.println("6 Exit");
+        int loggedUser = -1;
 
-        int choice = sc.nextInt();
+        while (true) {
 
-        switch (choice) {
+            System.out.println("\n1 Register");
+            System.out.println("2 Login");
+            System.out.println("3 Add Money");
+            System.out.println("4 Send Money");
+            System.out.println("5 View Transactions");
+            System.out.println("6 Exit");
 
-            case 1:
+            if (!sc.hasNextInt()) {
+                System.out.println("Enter a valid menu number.");
                 sc.nextLine();
-                IO.println("Enter Name:");
-                String name = sc.nextLine();
+                continue;
+            }
 
-                IO.println("Enter Email:");
-                String email = sc.nextLine();
+            int choice = sc.nextInt();
 
-                IO.println("Enter Password:");
-                String password = sc.nextLine();
+            switch (choice) {
 
-                userDAO.registerUser(name, email, password);
-                break;
+                case 1:
+                    sc.nextLine();
+                    System.out.println("Enter Name:");
+                    String name = sc.nextLine();
 
-            case 2:
-                sc.nextLine();
-                IO.println("Enter Email:");
-                email = sc.nextLine();
+                    System.out.println("Enter Email:");
+                    String email = sc.nextLine();
 
-                IO.println("Enter Password:");
-                password = sc.nextLine();
+                    System.out.println("Enter Password:");
+                    String password = sc.nextLine();
 
-                loggedUser = userDAO.loginUser(email, password);
-
-                if (loggedUser != -1) {
-                    IO.println("Login Successful");
-                    System.out.println("Welcome!!");
-                } else {
-                    IO.println("Invalid Credentials");
-                }
-
-                break;
-
-            case 3:
-                if (loggedUser == -1) {
-                    IO.println("Login First");
+                    userDAO.registerUser(name, email, password);
                     break;
-                }
 
-                IO.println("Enter Amount:");
-                double amount = sc.nextDouble();
+                case 2:
+                    sc.nextLine();
+                    System.out.println("Enter Email:");
+                    email = sc.nextLine();
 
-                paymentService.addMoney(loggedUser, amount);
-                break;
+                    System.out.println("Enter Password:");
+                    password = sc.nextLine();
 
-            case 4:
-                if (loggedUser == -1) {
-                    IO.println("Login First");
+                    loggedUser = userDAO.loginUser(email, password);
+
+                    if (loggedUser != -1) {
+                        System.out.println("Login successful");
+                        System.out.println("Welcome!");
+                    } else {
+                        System.out.println("Invalid credentials");
+                    }
+
                     break;
-                }
 
-                sc.nextLine();
-                IO.println("Enter Receiver Email:");
-                String receiverEmail = sc.nextLine();
+                case 3:
+                    if (loggedUser == -1) {
+                        System.out.println("Login first");
+                        break;
+                    }
 
-                int receiverId = userDAO.getUserIdByEmail(receiverEmail);
+                    System.out.println("Enter Amount:");
+                    if (!sc.hasNextDouble()) {
+                        System.out.println("Enter a valid amount.");
+                        sc.nextLine();
+                        break;
+                    }
 
-                if (receiverId == -1) {
-                    IO.println("Receiver Not Found");
+                    double addAmount = sc.nextDouble();
+                    paymentService.addMoney(loggedUser, addAmount);
                     break;
-                }
 
-                IO.println("Enter Amount:");
-                amount = sc.nextDouble();
+                case 4:
+                    if (loggedUser == -1) {
+                        System.out.println("Login first");
+                        break;
+                    }
 
-                paymentService.sendMoney(loggedUser, receiverId, amount);
-                break;
+                    sc.nextLine();
+                    System.out.println("Enter Receiver Email:");
+                    String receiverEmail = sc.nextLine();
 
-            case 5:
-                if (loggedUser == -1) {
-                    IO.println("Login First");
+                    int receiverId = userDAO.getUserIdByEmail(receiverEmail);
+
+                    if (receiverId == -1) {
+                        System.out.println("Receiver not found");
+                        break;
+                    }
+
+                    System.out.println("Enter Amount:");
+                    if (!sc.hasNextDouble()) {
+                        System.out.println("Enter a valid amount.");
+                        sc.nextLine();
+                        break;
+                    }
+
+                    double transferAmount = sc.nextDouble();
+                    paymentService.sendMoney(loggedUser, receiverId, transferAmount);
                     break;
-                }
 
-                transactionDAO.showTransactions(loggedUser);
-                break;
+                case 5:
+                    if (loggedUser == -1) {
+                        System.out.println("Login first");
+                        break;
+                    }
 
-            case 6:
-                System.exit(0);
+                    transactionDAO.showTransactions(loggedUser);
+                    break;
 
-            default:
-                IO.println("Invalid Choice");
+                case 6:
+                    sc.close();
+                    System.out.println("Goodbye");
+                    return;
+
+                default:
+                    System.out.println("Invalid choice");
+            }
         }
     }
 }

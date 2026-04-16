@@ -1,84 +1,66 @@
-Payment Gateway Simulator
+# Payment Gateway Simulator
 
-A console-based Payment Gateway Simulator developed using Java, JDBC, and MySQL.
-This project simulates the basic functionality of a digital payment system, including user registration, authentication, wallet balance management, and peer-to-peer transactions.
+A console-based payment gateway simulator built with Java, JDBC, and MySQL.
 
----
+## Features
 
-Features
+- User registration and login
+- Wallet balance management
+- Peer-to-peer money transfers
+- Transaction history tracking
+- Password hashing for stored credentials
+- Transaction-safe balance updates
 
-- User Registration
-- User Login Authentication
-- Add Money to Wallet
-- Send Money to Another User
-- Transaction History Tracking
-- Database Integration with MySQL
+## Project Structure
 
----
+```text
+payment-gateway-simulator/
+|-- src/
+|   |-- dao/
+|   |   |-- TransactionDAO.java
+|   |   `-- UserDAO.java
+|   |-- Service/
+|   |   `-- PaymentService.java
+|   |-- util/
+|   |   |-- DBConnection.java
+|   |   `-- PasswordUtil.java
+|   `-- Main.java
+|-- database.sql
+|-- db.properties.example
+`-- README.md
+```
 
-Technologies Used
+## Prerequisites
 
-- Java
-- JDBC (Java Database Connectivity)
+- Java 8 or higher
 - MySQL
-- IntelliJ IDEA
+- MySQL Connector/J added to the project classpath
 
----
+## Database Setup
 
-Project Structure
+1. Create the schema by running [database.sql](./database.sql).
+2. Create a local `db.properties` file in the project root using [db.properties.example](./db.properties.example) as the template.
+3. Update the database credentials in `db.properties`.
 
-payment-gateway-simulator
-│
-├── src
-│   ├── dao
-│   │   ├── UserDAO.java
-│   │   └── TransactionDAO.java
-│   │
-│   ├── service
-│   │   └── PaymentService.java
-│   │
-│   ├── util
-│   │   └── DBConnection.java
-│   │
-│   └── Main.java
-│
-├── database.sql
-└── README.md
+You can also use environment variables instead of `db.properties`:
 
----
+- `DB_URL`
+- `DB_USER`
+- `DB_PASSWORD`
 
-Database Setup
+## Running the Project
 
-1. Install MySQL.
-2. Open MySQL Workbench.
-3. Run the "database.sql" file included in the project.
-4. This will create the required database and tables.
+1. Open the project in IntelliJ IDEA, or compile the source files with `javac`.
+2. Add MySQL Connector/J to the classpath.
+3. Run [Main.java](./src/Main.java).
 
----
+## Notes
 
-How to Run the Project
+- The repository ignores local IDE files and `db.properties`, so machine-specific settings do not need to be committed.
+- Existing plain-text passwords in older databases are upgraded to hashed passwords the next time that user logs in successfully.
 
-1. Clone the repository.
-2. Open the project in IntelliJ IDEA.
-3. Add the MySQL Connector JAR to the project libraries.
-4. Update database credentials in "DBConnection.java".
-5. Run "Main.java".
-
----
-
-Example Menu
-
-1. Register
-2. Login
-3. Add Money
-4. Send Money
-5. View Transactions
-6. Exit
-
----
-
-Author
+## Author
 
 Nikhil Pal
 
-GitHub: https://github.com/NikhilPal1914
+GitHub: <https://github.com/NikhilPal1914>
